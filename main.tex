@@ -201,9 +201,9 @@ Q-learning is an off-policy TD control algorithm that seeks to find the best act
 It is considered off-policy because the q-learning function learns from actions that are outside the current policy, like taking random actions. More specifically, q-learning seeks to learn a policy that maximizes the total reward. It is making use of a model-free prediction and control methods.
 
 In this case, the learned action-value function, Q, directly approximates q, the optimal
-action-value function, independent of the policy being followed. This dramatically
-simplifies the analysis of the algorithm and enabled early convergence proofs. The policy
-still has an effect in that it determines which state–action pairs are visited and updated.
+action-value function, independent of the policy being followed. The Q-value resembles the discounted value of a state-action pair. This dramatically
+simplifies the analysis of the algorithm and enabled early convergence proofs. The policy however
+still affects control because it determines which state-action pairs are visited and updated.
 However, all that is required for correct convergence is that all pairs continue to be
 updated. This is a minimal requirement in the sense that
 any method guaranteed to find optimal behavior in the general case must require it.
@@ -227,6 +227,16 @@ q. The Q-learning algorithm is shown below in the procedural form\cite{Sutton201
     \EndWhile
     \end{algorithmic}
 \end{algorithm}
+
+The following figure is a more vivid depiction of the Q-learning process:
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figures/QLearningProcedure.png}
+    \caption{Deep Q-learning Procedure}
+    \label{fig:dql_procedure}
+\end{figure}
+
 
 As proven by Hasselt, Guez, and Silver \cite{VanHasselt2015}, the Q-learning algorithm suffers from its argmax component overestimating action values. Thus, they introduced the Double Q-Learning method, which will be covered in the next section.
 \subsection{Double-Q-Learning}
