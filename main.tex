@@ -228,7 +228,7 @@ q. The Q-learning algorithm is shown below in the procedural form\cite{Sutton201
     \end{algorithmic}
 \end{algorithm}
 
-The following figure is a more vivid depiction of the Q-learning process:
+The following figure (\ref{fig:dql_procedure}) is a depiction of the Q-learning process for DQNs, using an online and a target network. It shows how the online DQN, given the current state $S_t$, predicts the values of actions. Then it selects the best action based on an $\epsilon$ greedy policy and observes the environment's reaction to the action taken. In the {\it collect experience} block, all observations from the environment are collected. Like the received rewards and the state, the agent ends up in.
 
 \begin{figure}
     \centering
@@ -236,10 +236,31 @@ The following figure is a more vivid depiction of the Q-learning process:
     \caption{Deep Q-learning Procedure}
     \label{fig:dql_procedure}
 \end{figure}
+Once enough experience has been collected, one can start training the online neural network while keeping the target network fixed. After a set amount of steps, the weights of the two networks get synchronized. Minh et al \cite{Mnih2016} suggest selecting so-called mini-batches of size 32 from the pool of collected experiences for training. The following equation \ref{eq:exp_tuple} describes an experience tuple. It contains state, action, immediate reward, and the following state:
 
+\begin{equation}
+    \label{eq:exp_tuple}
+    e_t = (s_t, a_t, r_{t+1}, s_{t+1})
+\end{equation}
+
+Equation \ref{eq:target_q_value} shows how the target Q-value can be calculated. From the experience, we already know the immediate reward $R_{t+1}$. Gamma ($\gamma$) is the discounting factor which is multiplied by the argmax of the Q-values predicted by the target DQN. In other words, the action with the highest predicted Q-value gets selected and discounted for the target Q-value.
+
+\begin{equation}
+    \label{eq:target_q_value}
+    Y_t^{DQN} = R_{t+1} + \gamma * max_aQ'(a)
+\end{equation}
+
+One thing to note here is that at this stage we are using an untrained target DQN to predict the future rewards and select the maximum of its predictions. This is introducing a strong bias towards that maximum, a weakness of the Q-learning algorithm that is discussed in \ref{double_q_learning}. 
+
+Having calculated the target Q-value, one can subtract the predicted Q-value for the action taken and thereby calculate the loss, see equation \ref{eq:loss_function}.
+\begin{equation}
+    \label{eq:loss_function}
+    Loss = [Y_t^{DQN} - Q(A_t)]^2
+\end{equation}
+Using the gradient descent algorithm, one can now update the weights in the online DQN and repeat the process.
 
 As proven by Hasselt, Guez, and Silver \cite{VanHasselt2015}, the Q-learning algorithm suffers from its argmax component overestimating action values. Thus, they introduced the Double Q-Learning method, which will be covered in the next section.
-\subsection{Double-Q-Learning}
+\subsection{Double-Q-Learning}\label{double_q_learning}
 The max operator in standard Q-learning and DQN, in (2) and (3), uses the same values both to select and to evaluate an action. This makes it more likely to select over- estimated values, resulting in overoptimistic value estimates. To prevent this, we can decouple the selection from the evaluation. This is the idea behind Double Q-learning (van Hasselt, 2010). In the original Double Q-learning algorithm, two value functions are learned by assigning each experience randomly to up- date one of the two value functions, such that there are two sets of weights. For each update, one set of weights is used to determine the greedy policy and the other to determine its value. For a clear comparison, we can first untangle the selection and evaluation
 \begin{algorithm}
     \caption{Double Q-learning}
@@ -258,9 +279,10 @@ The max operator in standard Q-learning and DQN, in (2) and (3), uses the same v
     \EndWhile
     \end{algorithmic}
 \end{algorithm}
+\subsection{Distributed Prioritized Experience Replay}
 \section{StarCraft II}
 The testbed game used for this research project is Blizzard Entertainment's StarCraft II, released worldwide in July 2010 for Microsoft Windows and Mac OS X. StarCraft II is a science fiction real-time strategy video game and the sequel to the 1998 video game StarCraft. Since 2017, StarCraft II is free-to-play. The game is played professionally throughout the world. Just like its predecessor StarCraft: Brood War, the highest level of play is centered in South Corea. During its early years, it was considered the largest esport in the world.
-When choosing a game to use as an environment and testbed to train reinforcement agents in, StarCraft II is especially suited for this purpose, as Blizzard Entertainment provides a communication interface and protocol for interacting with the game client (see \ref{sec:SC2API}).
+When choosing a game to use as an environment and testbed to train reinforcement agents in, StarCraft II is especially suited for this purpose, as Blizzard Entertainment provides a communication interface and protocol for interacting with the game client (see section \ref{sec:SC2API}).
 The game focuses on three different races: Terrans, Zerg, and Protoss. Each race has different units and tactics. The strengths and weaknesses of the races allow many different strategies.
 To build buildings or units for combat, you need two resources: minerals and vespin gas, where minerals are always needed, vespin gas only for more advanced buildings and troops. Minerals can be mined from mineral fields, while vespin gas can be extracted from vespin geysers, for which special buildings must be placed on the geysers. The number of mineral fields and vespin geysers varies per map, so there are more mineral fields and vespin geysers on a 4v4 map than on a 1v1 map.
 In competitive setups, one starts with eight mineral fields and two vespin geysers. As the game progresses, however, one should mine and expand more mineral and Vespingas storage sites to build more and better units and buildings. This expansion has to be considered as well as warfare with the enemy party.
@@ -268,8 +290,12 @@ The key to victory is often having the more powerful units at the right place an
 However, units cannot be built arbitrarily, as most units have a certain building as a prerequisite. The right tactics and the strategic use of these units form the framework for a successful battle. For example, some units can only attack air or ground units. Some units can camouflage themselves and can only be detected with detector units. In addition, each unit type has a number of attributes that make it particularly effective or sensitive in certain scenarios. Thus, a perfect army composition is essential, taking into account the constellation of your opponent. There are countless possibilities for combinations and successful tactics, whereby the terrain can also be included. For example, units with an elevated position have a visual advantage.
 The game version used is v1.16.1.2943.
 \section{Involved Systems}
-Applied reinforcement forcement learning with video games can require the use of multiple complex systems. In this section the software systems used in this work will be covered.
-\subsection{Ray Server}
+Applied reinforcement forcement learning can require the use of multiple complex systems to cope with the needs of of training, simulation, and serving steps. In this section the software systems used in this work will be covered. Starting with the framework for serving the training process.
+\subsection{Ray Framework}
+Ray is a framework for building and running distributed applications, developed at the Berkeley University of California especially for AI applications. As agents of modern reinforcement learning systems will have to continuously interact with the environment and learn from these interactions, they impose demanding system requirements \cite{Moritz2017}. Ray implements a unified interface that can ship both task-parallel and actor-based computations in a single execution engine.
+It features a distributed scheduler and a distributed and fault-tolerant store to manage the system's control state.
+For dealing with large reinforcement learning workloads, Ray implements the evolutions strategies algorithm. The algorithm broadcasts a new policy to a pool of workers and aggregates the results of around 10000 tasks, where each performs 10 to 1000 simulation steps, see \cite{Moritz2017}.
+In this project, the Ray system is used to have 10 simultaneous StarCraft II matches played out in highly increased game speed by agents fed from one online DQN.
 \subsection{RLlib}
 \subsection{StarCraft II Machine Learning API}
 \label{sec:SC2API}
