@@ -192,7 +192,7 @@ Now in an MDP, the next state is not only dependent on the current state, but al
     R_s^a = \mathbb{E}[R_{t+1}|S_t = s, A_t = a]
 \end{equation}
 The MDP describes the basis for an algorithm popularly used for reinforcement learning, called Q-Learning, which the next section will cover.
-\subsection{Q-Learning}
+\subsection{Q-Learning and DQN}\label{sec:q-learning}
 Q-learning is an off-policy TD control algorithm that seeks to find the best action to take given the current state. It was invented by Christopher Watkins in 1989 and is defined by:
 \begin{equation}
     \label{eq:q_learn}
@@ -257,28 +257,50 @@ Having calculated the target Q-value, one can subtract the predicted Q-value for
     \label{eq:loss_function}
     Loss = [Y_t^{DQN} - Q(A_t)]^2
 \end{equation}
-Using the gradient descent algorithm, one can now update the weights in the online DQN and repeat the process.
+This method resembles a stochastic gradient descent, updating the current value $Q$ towards the target $Y_t^{DQM}$ one can now update the weights in the online DQN and repeat the process.
 
 As proven by Hasselt, Guez, and Silver \cite{VanHasselt2015}, the Q-learning algorithm suffers from its argmax component overestimating action values. Thus, they introduced the Double Q-Learning method, which will be covered in the next section.
-\subsection{Double-Q-Learning}\label{double_q_learning}
-The max operator in standard Q-learning and DQN, in (2) and (3), uses the same values both to select and to evaluate an action. This makes it more likely to select over- estimated values, resulting in overoptimistic value estimates. To prevent this, we can decouple the selection from the evaluation. This is the idea behind Double Q-learning (van Hasselt, 2010). In the original Double Q-learning algorithm, two value functions are learned by assigning each experience randomly to up- date one of the two value functions, such that there are two sets of weights. For each update, one set of weights is used to determine the greedy policy and the other to determine its value. For a clear comparison, we can first untangle the selection and evaluation
+
+\subsection{Double-Q-Learning}\label{sec:double_q_learning}
+In standard Q-Learning and DQN, as seen in \ref{sec:q-learning}, the max operator uses the same values both to select and evaluate an action. This makes it more likely to select overestimated values, resulting in overoptimistic value estimates, because the network might be making a false prediction and then evaluates this prediction with the same values. To prevent this, (van Hasselt, 2010) introduced the idea to decouple the selection from the evaluation. This method is called {\it Double Q-learning}. In the original Double Q-learning algorithm, two value functions are learned by assigning each experience randomly to update one of the two value functions, such that there are two sets of weights. For each update, one set of weights is used to determine the greedy policy and the other to determine its value. As \cite{VanHasselt2015} show, one can untangle the selection and evaluation of actions in Q-learning by rewriting its target (\ref{eq:target_q_value}) as
+
+\begin{equation}
+    \label{eq:q_target_untangled}
+    Y_t^Q = R_{t+1} + \gamma * Q(S_{t+1}, max_a Q(S_{t+1}, a;  \theta_t); \theta_t).
+\end{equation}
+Followed by the Double Q-learning Error, showing that the selection of the action still useses the weight set $\theta_t$ of the online DQN. The evaluation however happens based on the on the second set of weights $\theta'_t$: 
+\begin{equation}
+    \label{eq:double_q_target}
+    Y_t^Q = R_{t+1} + \gamma * Q(S_{t+1}, max_a Q(S_{t+1}, a;  \theta_t); \theta'_t).
+\end{equation}
+The procedure for the Double Q-Learning algorithm can be described as follows:
 \begin{algorithm}
     \caption{Double Q-learning}
     \begin{algorithmic}
     \State Algorithm parameters: step size $\alpha \in (0, 1]$, small  $\epsilon > 0$
     \State Initialize $Q(s,a)$, for all $s\in S^+$, $a\in A(s)$, arbitrarily except that $Q(terminal)=0$
+    \State Initialize $c$, set $\tau$
     \State Loop for each episode:
     \While{$S$ is not terminal}
         \State Initialize $S$
+        \State $c += 1$
         \ForAll{step of episode}
             \State Choose $A$ from $S$ using policy derived from $Q$ (e.g., $\epsilon$-greedy)
             \State Take action $A$, observe $R$, $S'$
-            \State $Q(S, A) \leftarrow Q(S, A) + \alpha [R_{t+1}+\gamma \max_aQ(S_{t+1},a)-Q(S_t,A-t)]$
+            \State $Q(S, A) \leftarrow Q(S, A) + \alpha [R_{t+1}+\gamma * Q(S_{t+1}, max_a Q(S_{t+1}, a;  \theta_t); \theta'_t)]$
             \State $S \leftarrow S'$
+            \State $\theta_t \leftrightarrow \theta'_t$ (switch roles of weight sets)
         \EndFor
+        \If{$c >= \tau$}
+            \State $\theta_t^- = \theta_t $ (synchronize weights of target network)
+        \EndIf
     \EndWhile
     \end{algorithmic}
 \end{algorithm}
+\newpage
+In their empirical results, \cite{VanHasselt2015}, describe that the Double DQN improves over DQN both in terms of value accuracy and in terms of policy quality. They state that, in their tests the Double DQN produces more accurate value estimates and also better polices, by successfully reducing standard DQN's overestimations.
+
+
 \subsection{Distributed Prioritized Experience Replay}
 \section{StarCraft II}
 The testbed game used for this research project is Blizzard Entertainment's StarCraft II, released worldwide in July 2010 for Microsoft Windows and Mac OS X. StarCraft II is a science fiction real-time strategy video game and the sequel to the 1998 video game StarCraft. Since 2017, StarCraft II is free-to-play. The game is played professionally throughout the world. Just like its predecessor StarCraft: Brood War, the highest level of play is centered in South Corea. During its early years, it was considered the largest esport in the world.
