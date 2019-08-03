@@ -1,6 +1,7 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
+\usepackage{acronym}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -15,36 +16,46 @@
 %\usepackage[headsepline, manualmark]{scrlayer-scrpage}
 %\clearpairofpagesstyles
 
+
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
 
+\usepackage{setspace}
+\onehalfspacing
+
 \author{\\Research Project\\ \\Thomas Schick\\Florian Soulier\\ \\ Institute for Information Technology\\
 Cologne University of Applied Sciences}
-\title{Reinforcement Learning Agents for StarCraft II}
+\title{Modern Reinforcement Learning Algorithms playing StarCraft II}
 \begin{document}
-\maketitle
+\noindent
+% \maketitle
+\input{titlepage.tex}
 \pagenumbering{Roman}
 \newpage
 \tableofcontents{}
 \newpage
+\section*{List of abbreviations}
+%\addcontentsline{toc}{section}{abbreviations}
+\input{acronyms.tex}
+\newpage
 \pagenumbering{arabic}
 \section{Introduction} 
-When talking about artifical intelligence the most brought up topics often are recognition of images or sound based on vast amounts of correctly labeled data.
+When talking about artificial intelligence the most brought up topics often are recognition of images or sound based on vast amounts of correctly labeled data.
 These technology rely heavily on human input to label the data in order for the machine learning algorithm to learn on.
 The ability to learn abstract concepts however, differs strongly from the sheer memorizing of certain values in a pixels greyscale brightness.
 This ability to learn is arguably one of, or even the most crucial aspect of human intelligence. And this is where reinforcement learning comes into play.
-In this field of artifical intelligence, we attempt to guide an agent by supervisory signals in the form of rewards and penalties to learn an optimal behavior.
-In the recent past a lot of milestones for reinforcement learning have been reached. The researchers at DeepMind aswell as @TODO
+In this field of artificial intelligence, we attempt to guide an agent by supervisory signals in the form of rewards and penalties to learn an optimal behavior.
+In the recent past a lot of milestones for reinforcement learning have been reached. The researchers at DeepMind as-well as @TODO
 This work is motivated by the leaping steps the technology has made.
 We adjusted the scope of the problem to a something we though to be reasonable when considering the time and resources available for this research project. 
-This project contributes to to deep reinforcement learning research by asssessing hyperparameters and models to state-of-the-art algorithms.
-\section{Artifical Neural Networks}
-This section describes the basics of simple neural networks. Since biological neural networks are the role model for the structure of so called artifical neural networks (ANN), some information about them will be presented first.
-Following up with an overview on the internal functionality of artifical neurons, the smallest component of ANNs.
-In order to store large amounts of information, such as memories of events, artificial neural networks can be used. Their structure and functions are modelled on those of biological neural networks, however greatly simplified.
+This project contributes to to deep reinforcement learning research by assessing hyper-parameters and models to state-of-the-art algorithms.
+\section{Artificial Neural Networks}
+This section describes the basics of simple neural networks. Since biological neural networks are the role model for the structure of so called artificial neural networks (ANN), some information about them will be presented first.
+Following up with an overview on the internal functionality of artificial neurons, the smallest component of ANNs.
+In order to store large amounts of information, such as memories of events, artificial neural networks can be used. Their structure and functions are modeled on those of biological neural networks, however greatly simplified.
 Each 
-Artifical neuronal networks can be an equivalent model to the turing machine, regarding computability.
+Artificial neuronal networks can be an equivalent model to the turing machine, regarding computability.
 \subsection{The Biological Paradigm}
 The mammal brain combined with the nervous system and it's capabilities in information processing serve as an archetype for today's artificial neural networks\cite{Rojas1996}
 The fundamental components of such biological systems are neurons, complex and very small cells, which react to electrochemical signals.
@@ -53,44 +64,40 @@ Although, there are different types of neurons they share some basic characteris
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{Figures/Neuron_schemantic_depiction.png}
-    \caption{Schemantic depiction of a neuron}
+    \caption{Schematic depiction of a neuron}
     \label{fig:neuron_schemantic}
 \end{figure}
 A neuron receives electrochemical stimuli from other neurons or receptors, which act as biological sensors.
 As a result of stimulation, the neuron fires a short sequence of electrical pulses via the axon to the synapses in order to stimulate other neurons or actor cells like the muscles. On single neuron can be connected to a thousand other neurons. Due to different types of synapses the signals at the transition can either be amplified or weakened \cite{Patterson1997}.
 Nowadays the synapses in the neural network are seen as the main storage for information, so considered to be the main location of knowledge\cite{Rojas1996}.
-\subsection{Artifical Neurons}
+\subsection{Artificial Neurons}
 After a crude explanation of the biological mechanisms inside a neuron, we will now have a look at the technical imitation. A simple model of an artificial neuron also denoted as a processing unit can be seen as a three-stage system with multiple inputs and one single output (see fig.\ref{fig:artifical_neuron}).
 \newline
 Thereby, the inputs $x_i$ mimic the biological structure of dendrites. By applying weights $w_i$, which can either have positive or negative values, to every external input-signal they represent the capability of synapses to amplify or weaken the signals. The input values, as well as the output values,  can be real, binary or bipolar \cite{Patterson1997}.
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{Figures/artificial_neuron.png}
-    \caption{Three stage model of an artifical neuron \cite{Bartz2018}.}
+    \caption{Three stage model of an artificial neuron \cite{Bartz2018}.}
     \label{fig:artifical_neuron}
 \end{figure}
 \newline
 In the first stage, the input stimuli of the neuron are combined into a so-called net-value. This net-value leads to a particular level of activity within the neuron. Although, for some classification tasks there are also other possibilities like distance from center \cite{Schwenker2001}, most times a weighted sum is used as a net function. In the definition of net sometimes a base level of excitation is stated, which is taken into account by a so-called bias value $\Theta$. To allow a compact notation this bias value is usually given as a fixed input value $x_0 = -1$ and a corresponding weight, so that $\Theta = -w_0$. The weighted sum can then be notated as:
 \begin{equation}
     \label{eq:net}
-    net = \sum_{n=0}^N\omega_n * x_n
+    net = \sum_{n=0}^N\omega_n \cdot x_n
 \end{equation}
 After multiple inputs are combined into a cumulative net value the next stage is the so-called activation function $f_{act}$. This function is normally a monotonously increasing function of net. Figure @todo shows some popular examples.
 
 The third and last stage is the output function, which imitates the effects of the axon and the synaptic connection. This stage is very often neglected because the goal of the model is not to copy the biological behavior as accurately as possible but to provide a processing tool inspired by neural mechanisms. So the output value in most cases is the same as the activation value, it holds $y = act$. In this case, the output function is an identity function (see fig. @todo).
 \subsection{Multi Layer Perceptron}
-The most commonly used form of artifical neuronal networks is the form of a multi layer perceptron. The perceptron is the fundamental unit in deep learning models. It can perform a basic mathematical operation, more specifically it can linearly
+The most commonly used form of artificial neuronal networks is the form of a multi layer perceptron. The perceptron is the fundamental unit in deep learning models. It can perform a basic mathematical operation, more specifically it can linearly
 combine a set of incoming values from it's inputs. The MLP features multiple layers of perceptrons, where each neuron is connected to all neurons of the following layer, forming a fully connected network.
-
-
-\subsection{Activation Functions}
-\subsection{Optimizing Neural Networks}
 \section{Deep Learning}
 Deep learning describes a set of machine learning methods for ANNs with multiple hidden layers. One can classify the learning methods of ANNs into three basic categories:  supervised learning, unsupervised learning, and reinforcement learning. Although this work concentrates on reinforcement learning, we will have a short look at the other two methods.
 \subsection{Supervised Learning}
 As the term supervised learning suggests, human supervision is necessary for the ANN to learn. In most cases, this means, that the training data has been labeled with human insight beforehand so that the samples contain both input and desired output values. During the learning process, the calculated output of the ANN is compared to the correctly labeled output of the sample, and an error or divergence is measured. This error is then used to adjust the connecting weights within the network. This way the network can achieve better performance and minimize the error in the next epoch of training. 
 Training is considered successful, if the resulting error lies within an acceptable range, for all samples of the training dataset.
-As of today, the most used algorithm for supervised learning is Backpropagation, implemented successfuly by Rumelhart in 1985 \cite{Rumelhart1985},{Patterson1997}.
+As of today, the most used algorithm for supervised learning is Back-propagation, implemented successfully by Rumelhart in 1985 \cite{Rumelhart1985},{Patterson1997}.
 \subsection{Unsupervised Learning}
 Machine learning without known target values or rewards granted by the environment is generally defined as unsupervised learning. The learner tries to recognize patterns and statistical regularities that stand out from the amorphous noise. During training, the learner machine intensifies specific connection weights so that the results for the clustering of central, representative datasets match up \cite{Patterson1997}. Popular fields of use are automated clustering of data points or compressing data to achieve dimensional reduction.
 \section{Deep Reinforcement Learning}
@@ -103,20 +110,20 @@ video game StarCraft II, the game which will be used for experiments in this pro
 \begin{figure}
     \centering
     \includegraphics[width={0.5\linewidth}]{Figures/DRL_schemantic_depiction.jpeg}
-    \caption{Schemantic depiction of a reinforcement learning process.}
+    \caption{Schematic depiction of a reinforcement learning process.}
     \label{fig:drl_schemantic}
 \end{figure}
 In Deep Reinforcement Learning, the Agent is represented by a neural network, which stores a representation of the experiences made in its environment. The agent observes the current state of the environment and decides which action to take from a pool of actions, called the action space.
 The decision is made on the basis of the current state and past experiences. Based on the taken action, the environment occasionally provides the agent with a reward. The amount of reward determines the quality of the taken action with regards to solving the given problem.
 The objective of an AI agent is to maximize the accumulated reward over time, by learning to take the right actions in any given circumstances.
 However, the reward is mostly delayed, thus not instantaneous. This makes time play a fundamental role in reinforcement learning and the decision process it revolves around.
-This decision process can be modeled as a Markov Decision Process, which will be covered in the next section.
+This decision process can be modeled as a Markov Decision Process, Laying the cornerstone for modern reinforcement learning algorithms which are described in the following sections.
 \subsection{Markov Decision Process}
 A Markov Decision Process (MDP) is a discrete time stochastic control process. MDP is the state of the art approach to model the complex environment of an AI agent. An MDP is defined by the tuple ${\{S, A, P, R, \gamma\}}$. A and S are finite sets of actions and states. P is a state transition probability matrix. R is the reward expected by the agent. In the following the MDP will be build up step by step. \newline
 Every problem that the agent is supposed to solve can be considered as a sequence of states (a state may be for example a chess board configuration). While taking actions, the agent moves from one state to another. In a Markov Process, the current state depends only on the previous state. This is also called the Markov Property (\ref{eq:markov_prop}).
 \begin{equation}
     \label{eq:markov_prop}
-    P[S_{t+1}|S_t] = P[S_{t+1}|S_1,S_2,S_3,...,S-t]
+    P[S_{t+1}|S_t] = P[S_{t+1}|S_1,S_2,S_3,...,S_t]
 \end{equation}
 A Markov Process is a memoryless random process. It is a sequence of random states, with each state fulfilling the Markov property. This means that the probability distribution of the next state is fully determined by just the current state and not any other state. A transition happens with a certain probability ${Pss'}$
 \begin{equation}
@@ -196,7 +203,7 @@ The MDP describes the basis for an algorithm popularly used for reinforcement le
 Q-learning is an off-policy TD control algorithm that seeks to find the best action to take given the current state. It was invented by Christopher Watkins in 1989 and is defined by:
 \begin{equation}
     \label{eq:q_learn}
-    Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1}+\gamma \max_aQ(S_{t+1},a)-Q(S_t,A-t)]
+    Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1}+\gamma \max_aQ(S_{t+1},a)-Q(S_t,A_t)]
 \end{equation}
 It is considered off-policy because the q-learning function learns from actions that are outside the current policy, like taking random actions. More specifically, q-learning seeks to learn a policy that maximizes the total reward. It is making use of a model-free prediction and control methods.
 
@@ -221,7 +228,7 @@ q. The Q-learning algorithm is shown below in the procedural form\cite{Sutton201
         \ForAll{step of episode}
             \State Choose $A$ from $S$ using policy derived from $Q$ (e.g., $\epsilon$-greedy)
             \State Take action $A$, observe $R$, $S'$
-            \State $Q(S, A) \leftarrow Q(S, A) + \alpha [R_{t+1}+\gamma \max_aQ(S_{t+1},a)-Q(S_t,A-t)]$
+            \State $Q(S, A) \leftarrow Q(S, A) + \alpha [R'+\gamma \max_aQ(S',a)-Q(S,A)]$
             \State $S \leftarrow S'$
         \EndFor
     \EndWhile
@@ -247,10 +254,10 @@ Equation \ref{eq:target_q_value} shows how the target Q-value can be calculated.
 
 \begin{equation}
     \label{eq:target_q_value}
-    Y_t^{DQN} = R_{t+1} + \gamma * max_aQ'(a)
+    Y_t^{DQN} = R_{t+1} + \gamma \cdot max_aQ'(a)
 \end{equation}
 
-One thing to note here is that at this stage we are using an untrained target DQN to predict the future rewards and select the maximum of its predictions. This is introducing a strong bias towards that maximum, a weakness of the Q-learning algorithm that is discussed in \ref{double_q_learning}. 
+One thing to note here is that at this stage we are using an untrained target DQN to predict the future rewards and select the maximum of its predictions. This is introducing a strong bias towards that maximum, a weakness of the Q-learning algorithm that is discussed in \ref{sec:double_q_learning}. 
 
 Having calculated the target Q-value, one can subtract the predicted Q-value for the action taken and thereby calculate the loss, see equation \ref{eq:loss_function}.
 \begin{equation}
@@ -262,16 +269,16 @@ This method resembles a stochastic gradient descent, updating the current value 
 As proven by Hasselt, Guez, and Silver \cite{VanHasselt2015}, the Q-learning algorithm suffers from its argmax component overestimating action values. Thus, they introduced the Double Q-Learning method, which will be covered in the next section.
 
 \subsection{Double-Q-Learning}\label{sec:double_q_learning}
-In standard Q-Learning and DQN, as seen in \ref{sec:q-learning}, the max operator uses the same values both to select and evaluate an action. This makes it more likely to select overestimated values, resulting in overoptimistic value estimates, because the network might be making a false prediction and then evaluates this prediction with the same values. To prevent this, (van Hasselt, 2010) introduced the idea to decouple the selection from the evaluation. This method is called {\it Double Q-learning}. In the original Double Q-learning algorithm, two value functions are learned by assigning each experience randomly to update one of the two value functions, such that there are two sets of weights. For each update, one set of weights is used to determine the greedy policy and the other to determine its value. As \cite{VanHasselt2015} show, one can untangle the selection and evaluation of actions in Q-learning by rewriting its target (\ref{eq:target_q_value}) as
+In standard Q-Learning and DQN, as seen in \ref{sec:q-learning}, the max operator uses the same values both to select and evaluate an action. This makes it more likely to select overestimated values, resulting in overoptimistic value estimates, because the network might be making a false prediction and then evaluates this prediction with the same values. To prevent this, (van Hasselt, 2010) introduced the idea to decouple the selection from the evaluation. This method is called {\it Double Q-learning}. In the original Double Q-learning algorithm, two value functions are learned by assigning each experience randomly to update one of the two value functions, such that there are two sets of weights. For each update, one set of weights is used to determine the greedy policy and the other to determine its value. As \cite{VanHasselt2015} show, we can untangle the selection and evaluation of actions in Q-learning by rewriting its target (\ref{eq:target_q_value}) as
 
 \begin{equation}
     \label{eq:q_target_untangled}
-    Y_t^Q = R_{t+1} + \gamma * Q(S_{t+1}, max_a Q(S_{t+1}, a;  \theta_t); \theta_t).
+    Y_t^Q = R_{t+1} + \gamma \cdot Q(S_{t+1}, max_a Q(S_{t+1}, a;  \theta_t); \theta_t).
 \end{equation}
-Followed by the Double Q-learning Error, showing that the selection of the action still useses the weight set $\theta_t$ of the online DQN. The evaluation however happens based on the on the second set of weights $\theta'_t$: 
+Followed by the Double Q-learning Error, showing that the selection of the action still uses the weight set $\theta_t$ of the online DQN. The evaluation however happens based on the second set of weights $\theta'_t$: 
 \begin{equation}
     \label{eq:double_q_target}
-    Y_t^Q = R_{t+1} + \gamma * Q(S_{t+1}, max_a Q(S_{t+1}, a;  \theta_t); \theta'_t).
+    Y_t^Q = R_{t+1} + \gamma \cdot Q(S_{t+1}, max_a Q(S_{t+1}, a;  \theta_t); \theta'_t).
 \end{equation}
 The procedure for the Double Q-Learning algorithm can be described as follows:
 \begin{algorithm}
@@ -287,51 +294,190 @@ The procedure for the Double Q-Learning algorithm can be described as follows:
         \ForAll{step of episode}
             \State Choose $A$ from $S$ using policy derived from $Q$ (e.g., $\epsilon$-greedy)
             \State Take action $A$, observe $R$, $S'$
-            \State $Q(S, A) \leftarrow Q(S, A) + \alpha [R_{t+1}+\gamma * Q(S_{t+1}, max_a Q(S_{t+1}, a;  \theta_t); \theta'_t)]$
+            \State $Q(S, A) \leftarrow Q(S, A) + \alpha [R_{t+1}+\gamma \cdot Q(S_{t+1}, max_a Q(S_{t+1}, a;  \theta_t); \theta'_t)]$
             \State $S \leftarrow S'$
             \State $\theta_t \leftrightarrow \theta'_t$ (switch roles of weight sets)
         \EndFor
         \If{$c >= \tau$}
-            \State $\theta_t^- = \theta_t $ (synchronize weights of target network)
+            \State $\theta_target = \theta_t $ (synchronize weights of target network)
+            \State $c = 0$
         \EndIf
     \EndWhile
     \end{algorithmic}
 \end{algorithm}
 \newpage
-In their empirical results, \cite{VanHasselt2015}, describe that the Double DQN improves over DQN both in terms of value accuracy and in terms of policy quality. They state that, in their tests the Double DQN produces more accurate value estimates and also better polices, by successfully reducing standard DQN's overestimations.
-
-
+In their empirical results, see \cite{VanHasselt2015}, describe that the Double DQN improves over DQN both in terms of value accuracy and in terms of policy quality. They state that, in their tests the Double DQN produces more accurate value estimates and also better polices, by successfully reducing standard DQN's overestimations.
 \subsection{Distributed Prioritized Experience Replay}
-\section{StarCraft II}
-The testbed game used for this research project is Blizzard Entertainment's StarCraft II, released worldwide in July 2010 for Microsoft Windows and Mac OS X. StarCraft II is a science fiction real-time strategy video game and the sequel to the 1998 video game StarCraft. Since 2017, StarCraft II is free-to-play. The game is played professionally throughout the world. Just like its predecessor StarCraft: Brood War, the highest level of play is centered in South Corea. During its early years, it was considered the largest esport in the world.
+Online reinforcement learning agents using simple algorithms, like the standard q-learning, are prone to miss potentially important experiences. This is because they incrementally update their policy or value function parameters while they observe a stream of experience. Although they actually observe the experience, due to immediate discarding the possibly rare experience is forgotten quite rapidly.
+{\it Experience replay}, see \cite{Lin2014}, successfully addresses this issue by storing experience in a replay memory. With the help of this memory, we can update the parameters also based on rarely occurring experiences by using them more than once. The DQN implements this technique to stabilize the training of a deep neural network. By using a large sliding window replay memory this results in effectively processing each experience tuple eight times, see \cite{Schaul2016} and section \ref{sec:q-learning}.
+{\it Prioritized Experience Replay}, see \cite{Schaul2016}, makes enhancements by introducing prioritization on which experiences in memory are replayed to make experience replay more efficient and effective. As stated by \cite{Schmidhuber1991CuriousMC}, it is hard to determine whether or not an experience is more task-relevant than others. Some might also become more useful as the agent's competence to solve the task at hand increases. Prioritized replay liberates agents from considering experiences with the same frequency that they are experienced, however introducing some bias and loss of diversity, see \cite{Schaul2016}.
+To overcome the issue of losing diversity, a stochastic sampling method defines the probability of sampling experience $i$ as
+\begin{equation*}
+    P(i) = \frac{p_i^\alpha}{\sum{_k p_k^\alpha}}
+\end{equation*}
+where $p_i > 0$ is the priority of the experience $i$ in memory. The exponent $\alpha$ determines how much prioritization is used, with $\alpha = 0$ corresponding to the uniform case \cite{Schaul2016}.
+When estimating the expected value through stochastic updates, the updates have to correspond to the same distribution as its expectation. Otherwise, the solution that the learning algorithm will converge to will be changed. If not corrected, prioritized replay changes this distribution in an uncontrolled fashion. The bias can be corrected by using importance-sampling (IS) weights to compensate for the non-uniform probabilities $P(i)$ if $\beta = 1$. See the usage of $w_i\delta_i$ instead of $\delta_i$ in Algorithm \ref{alg:prioritizedReplay}. $\beta$ is linearly increased during learning, meaning that compensation is best towards the end of the process. Tom Schaul et al. at GoogleDeepMind hypothesize, that a small bias, in the beginning, can be ignored because the process is highly non-stationary anyway at that time.
+\begin{equation}
+    P(i) = \frac{p_i^\alpha}{\sum{_k p_k^\alpha}}
+\end{equation}
+where $p_i > 0$ is the priority of the experience $i$ in memory. The exponent $\alpha$ determines how much prioritization is used, with $\alpha = 0$ corresponding to the uniform case \cite{Schaul2016}.
+\begin{algorithm}
+    \label{alg:prioritizedReplay}
+    \caption{Double DQN with proportional prioritization \cite{Schaul2016}}
+    \begin{algorithmic}
+    \State Input: mini-batch $k$, step-size $\eta$, replay period $K$ and size $N$, exponents $\alpha$ and $\beta$, budget $T$.
+    \State Initialize replay memory $H = \varnothing, \Delta = 0, p1 = 1$
+    \State Observe $S_0$ and choose $A_0 \sim \pi_\theta(S_0)$
+    \For{t=1 {\bf to} $T$}
+        \State Observe $S_t$, $R_t$, $\gamma_t$
+        \State Store experience tuple ($S_{t-1,} A_{t-1}, R_t, \gamma_t, S_t$) in $H$ with maximal priority $p_t = max_{i<t}p_i$
+        \If{$t \equiv 0$ mod $K$}
+            \For{j=1 {\bf to} $k$}
+                \State Sample experience $j ~ P(j) = p^\alpha_j/\sum_i{p^\alpha_i}$
+                \State Compute importance-sampling weight $w_j = / N \cdot P(j))^{-\beta}$
+                \State Compute TD-error $\delta_j = R_j + \gamma_jQ_{target}(S_j, max_aQ(S_j,a)) - Q(S_{j-1},A_{j-1})$
+                \State Update experience priority $p_j \leftarrow |\delta_j|$
+                \State Accumulate weight-change $\Delta \leftarrow \Delta + w_j \cdot \delta_j \cdot \nabla_\Theta Q(S_{j-1}, A_{j-1})$
+            \EndFor
+            \State Update weights $\Theta \leftarrow \Theta + \eta \cdot \Delta, reset \Delta = 0$
+            \State From time to time copy weights into target network $\theta_{target} \leftarrow \theta$
+        \EndIf
+        \State Choose action $A_t \sim \pi_\theta(S_t)$
+    \EndFor
+    \end{algorithmic}
+\end{algorithm}
+In order to d
+
+\section{StarCraft II}\label{sec:SC2}
+The testbed game used for this research project is Blizzard Entertainment's StarCraft II, released worldwide in July 2010 for Microsoft Windows and Mac OS X. StarCraft II is a science fiction real-time strategy video game and the sequel to the 1998 video game StarCraft. Since 2017, StarCraft II is free-to-play. The game is played professionally throughout the world. Just like its predecessor StarCraft: Brood War, the highest level of play is centered in South Korea. During its early years, it was considered the largest esport in the world.
 When choosing a game to use as an environment and testbed to train reinforcement agents in, StarCraft II is especially suited for this purpose, as Blizzard Entertainment provides a communication interface and protocol for interacting with the game client (see section \ref{sec:SC2API}).
-The game focuses on three different races: Terrans, Zerg, and Protoss. Each race has different units and tactics. The strengths and weaknesses of the races allow many different strategies.
+The game focuses on three different races: Terran, Zerg, and Protoss. Each race has different units and tactics. The strengths and weaknesses of the races allow many different strategies.
 To build buildings or units for combat, you need two resources: minerals and vespin gas, where minerals are always needed, vespin gas only for more advanced buildings and troops. Minerals can be mined from mineral fields, while vespin gas can be extracted from vespin geysers, for which special buildings must be placed on the geysers. The number of mineral fields and vespin geysers varies per map, so there are more mineral fields and vespin geysers on a 4v4 map than on a 1v1 map.
 In competitive setups, one starts with eight mineral fields and two vespin geysers. As the game progresses, however, one should mine and expand more mineral and Vespingas storage sites to build more and better units and buildings. This expansion has to be considered as well as warfare with the enemy party.
 The key to victory is often having the more powerful units at the right place and at the right time in order to beat the opponent's forces.
-However, units cannot be built arbitrarily, as most units have a certain building as a prerequisite. The right tactics and the strategic use of these units form the framework for a successful battle. For example, some units can only attack air or ground units. Some units can camouflage themselves and can only be detected with detector units. In addition, each unit type has a number of attributes that make it particularly effective or sensitive in certain scenarios. Thus, a perfect army composition is essential, taking into account the constellation of your opponent. There are countless possibilities for combinations and successful tactics, whereby the terrain can also be included. For example, units with an elevated position have a visual advantage.
-The game version used is v1.16.1.2943.
-\section{Involved Systems}
-Applied reinforcement forcement learning can require the use of multiple complex systems to cope with the needs of of training, simulation, and serving steps. In this section the software systems used in this work will be covered. Starting with the framework for serving the training process.
+However, units cannot be built arbitrarily, as most units have a certain building as a prerequisite. The right tactics and the strategic use of these units form the framework for a successful battle. For example, some units can only attack air or ground units. Some units can camouflage themselves and can only be detected with detector units. In addition, each unit type has a number of attributes that make it particularly effective or vulnerable in certain scenarios. Thus, a perfect army composition is essential, taking into account the constellation of your opponent. There are countless possibilities for combinations and successful tactics, whereby the terrain can also be included. For example, units with an elevated position have a visual advantage.
+While the main objective of the game is to beat the opponent, they player must also carry out and manage a number of sub-tasks, such as gathering resources or building structures. Games can last anywhere form a few minutes to one hour to complete, meaning actions taken early in the game might first pay-off in the long run. Finally, the map or the games state is only partially observed, meaning agents must use a combination of memory and planing to succeed.
+The next section describes, how we used StarCraft II and a set of tools to implement different reinforcement learning algorithms.
+\section{Implementation}
+Applied reinforcement learning can require the use of multiple complex systems to cope with the needs of of training, simulation, and serving steps. In this section the software systems used in this work will be covered. Starting with the framework for serving the training process.
 \subsection{Ray Framework}
-Ray is a framework for building and running distributed applications, developed at the Berkeley University of California especially for AI applications. As agents of modern reinforcement learning systems will have to continuously interact with the environment and learn from these interactions, they impose demanding system requirements \cite{Moritz2017}. Ray implements a unified interface that can ship both task-parallel and actor-based computations in a single execution engine.
+Ray is a framework for building and running distributed applications, developed at the Berkeley University of California especially for AI applications. As agents of modern reinforcement learning systems will have to continuously interact with the environment and learn from these interactions, they impose demanding system requirements, see \cite{Moritz2017}. Ray implements a unified interface that can ship both task-parallel and actor-based computations in a single execution engine.
 It features a distributed scheduler and a distributed and fault-tolerant store to manage the system's control state.
 For dealing with large reinforcement learning workloads, Ray implements the evolutions strategies algorithm. The algorithm broadcasts a new policy to a pool of workers and aggregates the results of around 10000 tasks, where each performs 10 to 1000 simulation steps, see \cite{Moritz2017}.
 In this project, the Ray system is used to have 10 simultaneous StarCraft II matches played out in highly increased game speed by agents fed from one online DQN.
+The Ray framework also supplies a library especially crafted for reinforcement learning. It features top-down hierarchical control for the many short-running computation tasks occurring during distributed reinforcement learning tasks. The benefits are described in the next section.
 \subsection{RLlib}
-\subsection{StarCraft II Machine Learning API}
+Since modern reinforcement learning algorithms are highly irregular in the computation patterns they create, it is highly useful to have a system at hand that makes the implementation of different algorithms easy. As we want to compare the performance of different algorithms learning to play StarCraft II, we decided to use RLlib. It centralizes program control, instead of having to manage each process on its own, making parallelization very convenient. As shown in Figure \ref{fig:DRL_control_model}, a single {\it driver program} can delegate the algorithm sub-tasks to other processes, enabling parallel execution. $A$, $B$, and $C$ still hold their state, like their active policy or their general simulation state, but wait passively until called by $D$.  Furthermore, through RLlibs hierarchical delegation of control, the worker processes $B$ and $C$ can further delegate work, like gradient computation, to sub-workers of their own when executing tasks \cite{Liang2017}.
+The way the implementation works with RLlib is as follows. First, we specify a policy model $\pi$, which maps current observation $o_t$  to an action $a_t$ and the next RNN state $h_{t+1}$. As an option, the current hidden state $h_t$ can also be stored.
+\begin{equation}
+    \label{eq:policy_graph}
+    \pi_\theta(o_t, h_t) \Rightarrow (a_t,h_{t+1}, y_t^1 ... y_t^N)
+\end{equation}
+
+Like shown in \ref{sec:q-learning}, gradient-based algorithms define a combined loss $L$ that can be descended to improve the policy and possible auxiliary networks:
+\begin{equation}
+    \label{eq:combined_loss}
+    L(\theta; X) \Rightarrow loss
+\end{equation}
+
+\subsection{Policy Optimization}
+Using RLlib, we can separate the implementation of algorithms, which are defined in the declaration of the policy graph, and the choice of an algorithm-specific {\it policy optimizer}. This policy optimizer will perform distributed sampling, parameter updates and manage the replay buffers. To distribute the computation, the optimizer operates over a set of policy evaluator replicas. This separation enables the reinforcement learning task to make better use of available resources or algorithm features, see \cite{Liang2017}.
+
+\subsection{DQN implementation}
+
+\subsection{Ape-X implementation}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figures/DRL_Control_Model.pdf}
+    \caption{RLlib component control \cite{Liang2017}}
+    \label{fig:DRL_control_model}
+\end{figure}
+\subsection{StarCraft II Learning Environment}
+One of the main reasons for choosing StarCraft II, see section \ref{sec:SC2}, as our testbed game is the release of the StarCraft II Learning Environment (SC2LE). It is a set of tools that is aimed towards the needs of researchers of AI in real-time strategy games. It includes the StarCraft II Machine Learning API developed by Blizzard Entertainment, providing developers and researchers hooks into the game, making the observation of the game state much easier and convenient. Along with that an open-source version of DeepMind's toolset, PySC2 and a dataset of anonymized game replays. The following section describes how we used SC2LE API and the PySC2 toolset to create a feature vector for our agent.
 \label{sec:SC2API}
-\subsubsection{StarCraft II Learning Environment}
-\section{Optimization Szenario}
-A game of StarCraft II is all about having more strike force at the right time and at the right place then the opponent.
-So one of the most important tasks when learning the game is the ability to produce as many armed forces as fast as possible.
-In the scope of this work we focus on the Terran race, so the most straight forward approach is to produce marines from the barracks building.
-Therefore, as a first experiment for the reinforcemnt learning agent, a szenario is used, where it's goal is solely to train marines.
-The agent recievs a reward for every marine trained in a game of six minutes game time. The time limit is picked on purpose, because in a real match this would be the point where a mass of marines would be the most useful.
-In order to reach the optimal amount of marines in the given time frame, the agent must optimize it's use of resources.
-As a benchmark, we @TODO(check the available minerals) reached 150 marines in 15 minutes when playing oursleves. We used 20 workers and six barracks to reach this many marines.
-The agent has to optimze the amount of produced workers and the amount of barraks aswell. 
-\section{Experiment Results}
+\subsubsection{StarCraft II Machine Learning API}
+When we want to have our agents interact with StarCraft, we must implement some sort of interface for the online policy network to receive the game's state and deliver picked agents to the StarCraft client. In this case we used the SC2LE API and the wrapper libraries PySC2 and PythonSC2 to extract a set of picked values to supply our agent with information we decided to be useful for our defined optimization scenario, see section \ref{sec:scenario}. For an overview of these picked values see the following section. In section \ref{sec:action} is described, what discrete actions we prepared for the learning agents, using the PythonSC2 library.
+\subsubsection{Observed State}
+The agent perceives its environment through observation after every action taken. The observation of the SC2LE game state happens with the help of a custom build feature vector. The PySC2 toolset provides nearly every information the game client holds, however not all of these features are necessary for the learning goal. In an attempt to simplify the reinforcement learning problem we picked to features directly related to the task given and thus, we proclaim, the most relevant ones, see table \ref{tab:observation}.
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ | c | c || c | }
+            \hline
+            {\bf Feature} & {\bf Content} & {\bf Value-Range} \\
+            \hline
+            1 & minerals & -500 to 30000\\ 
+            \hline
+            2 & supply\_left & 0 to 200 \\  
+            \hline
+            3 & supply\_used & 0 to 200 \\
+            \hline
+            4 & frame & 0 to 20000 \\
+            \hline
+            5 & supply Depots & 0 to 200 \\
+            \hline
+            6 & barracks & 0 to 200 \\
+            \hline
+            7 & workers & 0 to 200 \\
+            \hline
+            7 & marines & 0 to 200 \\
+            \hline
+        \end{tabular}
+    \end{center}
+    \caption{Observation feature vector}
+    \label{tab:observation}
+\end{table}
+
+$Minerals$, are the only resource needed for the task Their range starts at negative 500 because sometimes the policy server would crash due to a negative amount in this feature. We assume this is a bug in the SC2LE. $supply\_left$ is a critical feature as it indicates when building another supply depot building is required. Each supply depot provides 10 additional supplies. $frame$ is the number of in-game frames that have been processed since the start of the game. This gives somewhat of a time estimation as the game runs at 24 frames per second. Features 5 to 8 show the number of the respective unit or building.
+\subsubsection{Action Space}\label{sec:action}
+StarCraft's action space presents a challenge with a choice of more than 300 basic actions that can be taken. Contrast this with the Atari games, which only have about ten, most times less than that. On top of this, actions in StarCraft are hierarchical and can sometimes be modified or augmented.
+In an effort to reduce problem complexity and provide the algorithms with discrete actions to choose from, we decided on four different scripted action paths plus the ability to do nothing. The pool of possible actions to choose from at any state of our testbed scenario is presented in table \ref{tab:actions}. At first, it was planned to be expanded later on, but after a number of experiments with the limited action space, we decided that enlargement of possible actions would not be beneficial to the project, see section \ref{sec:results}.
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c | c | c }
+            {\bf Action} & {\bf Effect} & {\bf Prerequisites} \\
+            \hline
+            build\_worker & Produces worker unit to increase mineral income. & None \\ 
+            build\_marine & Produce marine unit. Provides reward. & Barracks \\  
+            build\_supply & Build supply depot. Provides supply. & Worker \\
+            build\_barracks & Build barracks. Can produce marines. & Supply Depot \\
+            no\_action & Do nothing. & None    
+        \end{tabular}
+    \end{center}
+    \caption{The agents action space}
+    \label{tab:actions}
+\end{table}
+\section{Optimization Scenario}\label{sec:scenario}
+Since StarCraft II's standard game features a very complex and very demanding environment for our reinforcement learning agents we had to reduce the problem complexity.
+A game of StarCraft II is mostly about having more strike force at the right time and the right place than the opponent.
+So one of the most important tasks when learning the game is the ability to produce as many armed forces as fast as possible. Following that idea, we picked an optimization scenario that reflects that problem in the simplest way provided by the game.
+In the scope of this work, we focus on the Terran race, so the most straight forward approach is to produce marines from the barracks building.
+Therefore, as a first experiment for the reinforcement learning agent, a scenario is used, where it's the goal is solely to train marines.
+The agent receives a reward for every marine trained in a game of six minutes of game time. The time limit is picked on purpose because in a real match this would be the point where a mass of marines would be the most useful.
+In order to reach the optimal amount of marines in the given time frame, the agent must optimize its use of resources.
+As a benchmark, we @TODO(check the available minerals) reached 150 marines in 15 minutes when playing ourselves. We used 20 workers and six barracks to reach this many marines.
+The agent has to optimize the amount of produced workers and the number of barracks as-well.
+However, before producing a marine, the player has to meet certain prerequisites. These include: having at least 50 minerals, having at least one available supply and having previously built the barracks building. The barracks building itself has the prerequisite of having a supply depot built.
+
+
+\begin{figure}
+    \minipage{0.32\textwidth}
+    \includegraphics[width=\linewidth]{Figures/depot.png}
+    \caption{Supply Depot}\label{fig:depot}
+    \endminipage\hfill
+    \minipage{0.30\textwidth}
+    \includegraphics[width=\linewidth]{Figures/barracks.png}
+    \caption{Barracks}\label{fig:barracks}
+    \endminipage\hfill
+    \minipage{0.26\textwidth}
+    \includegraphics[width=\linewidth]{Figures/marine.png}
+    \caption{Marine}\label{fig:marine}
+    \endminipage
+\end{figure}
+So the agent has to recognize the dependency chain of Marine, Barracks and Supply Depot, see figures \ref{fig:depot} to \ref{fig:marine}. In past experiments with reinforcement learning agents, it was difficult to recognize this complex relationship. Most known algorithms were not able to successfully learn Montezuma's revenge from the Atari 2060 collection, see \cite{DBLP:journals/corr/abs-1805-11592}. What distinguishes Montezuma's Revenge from other Atari games is its relatively sparse rewards. The agent only receives rewards after completing a specific series of actions of extended periods of time. DeepMind reveals in their online blog, that their initial investigations showed that their agents performed well on the mini-games offered by the SC2LE \cite{DeepMindBlog2017}.
+A similar challenge is proposed by our simplified StarCraft II scenario, which leads to the findings from the experiments we made.
+
+\section{Experiment Results}\label{sec:results}
 \section{Learnings}
 \section{Conclusion}
 blub\cite{Mnih2016}
