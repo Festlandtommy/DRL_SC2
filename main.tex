@@ -48,14 +48,13 @@ This ability to learn is arguably one of, or even the most crucial aspect of hum
 In this field of artificial intelligence, we attempt to guide an agent by supervisory signals in the form of rewards and penalties to learn an optimal behavior.
 In the recent past a lot of milestones for reinforcement learning have been reached. The researchers at DeepMind as-well as @TODO
 This work is motivated by the leaping steps the technology has made.
-We adjusted the scope of the problem to a something we though to be reasonable when considering the time and resources available for this research project. 
+We adjusted the scope of the problem to a something we thought to be reasonable when considering the time and resources available for this research project. 
 This project contributes to to deep reinforcement learning research by assessing hyper-parameters and models to state-of-the-art algorithms.
 \section{Artificial Neural Networks}
 This section describes the basics of simple neural networks. Since biological neural networks are the role model for the structure of so called artificial neural networks (ANN), some information about them will be presented first.
 Following up with an overview on the internal functionality of artificial neurons, the smallest component of ANNs.
 In order to store large amounts of information, such as memories of events, artificial neural networks can be used. Their structure and functions are modeled on those of biological neural networks, however greatly simplified.
-Each 
-Artificial neuronal networks can be an equivalent model to the turing machine, regarding computability.
+Artificial neural network can be regarded an equivalent model to the Turing machine, regarding computability.
 \subsection{The Biological Paradigm}
 The mammal brain combined with the nervous system and it's capabilities in information processing serve as an archetype for today's artificial neural networks\cite{Rojas1996}
 The fundamental components of such biological systems are neurons, complex and very small cells, which react to electrochemical signals.
@@ -68,7 +67,7 @@ Although, there are different types of neurons they share some basic characteris
     \label{fig:neuron_schemantic}
 \end{figure}
 A neuron receives electrochemical stimuli from other neurons or receptors, which act as biological sensors.
-As a result of stimulation, the neuron fires a short sequence of electrical pulses via the axon to the synapses in order to stimulate other neurons or actor cells like the muscles. On single neuron can be connected to a thousand other neurons. Due to different types of synapses the signals at the transition can either be amplified or weakened \cite{Patterson1997}.
+As a result of stimulation, the neuron fires a short sequence of electrical pulses via the axon to the synapses in order to stimulate other neurons or actor cells like the muscles. One single neuron can be connected to a thousand other neurons. Due to different types of synapses the signals at the transition can either be amplified or weakened \cite{Patterson1997}.
 Nowadays the synapses in the neural network are seen as the main storage for information, so considered to be the main location of knowledge\cite{Rojas1996}.
 \subsection{Artificial Neurons}
 After a crude explanation of the biological mechanisms inside a neuron, we will now have a look at the technical imitation. A simple model of an artificial neuron also denoted as a processing unit can be seen as a three-stage system with multiple inputs and one single output (see fig.\ref{fig:artifical_neuron}).
@@ -90,14 +89,14 @@ After multiple inputs are combined into a cumulative net value the next stage is
 
 The third and last stage is the output function, which imitates the effects of the axon and the synaptic connection. This stage is very often neglected because the goal of the model is not to copy the biological behavior as accurately as possible but to provide a processing tool inspired by neural mechanisms. So the output value in most cases is the same as the activation value, it holds $y = act$. In this case, the output function is an identity function (see fig. @todo).
 \subsection{Multi Layer Perceptron}
-The most commonly used form of artificial neuronal networks is the form of a multi layer perceptron. The perceptron is the fundamental unit in deep learning models. It can perform a basic mathematical operation, more specifically it can linearly
+The most commonly used form of artificial neural networks is the form of a multi layer perceptron. The perceptron is the fundamental unit in deep learning models. It can perform a basic mathematical operation, more specifically it can linearly
 combine a set of incoming values from it's inputs. The MLP features multiple layers of perceptrons, where each neuron is connected to all neurons of the following layer, forming a fully connected network.
 \section{Deep Learning}
 Deep learning describes a set of machine learning methods for ANNs with multiple hidden layers. One can classify the learning methods of ANNs into three basic categories:  supervised learning, unsupervised learning, and reinforcement learning. Although this work concentrates on reinforcement learning, we will have a short look at the other two methods.
 \subsection{Supervised Learning}
 As the term supervised learning suggests, human supervision is necessary for the ANN to learn. In most cases, this means, that the training data has been labeled with human insight beforehand so that the samples contain both input and desired output values. During the learning process, the calculated output of the ANN is compared to the correctly labeled output of the sample, and an error or divergence is measured. This error is then used to adjust the connecting weights within the network. This way the network can achieve better performance and minimize the error in the next epoch of training. 
 Training is considered successful, if the resulting error lies within an acceptable range, for all samples of the training dataset.
-As of today, the most used algorithm for supervised learning is Back-propagation, implemented successfully by Rumelhart in 1985 \cite{Rumelhart1985},{Patterson1997}.
+As of today, the most used algorithm for supervised learning is Back-propagation, implemented successfully by Rumelhart in 1985 \cite{Rumelhart1985}\cite{Patterson1997}.
 \subsection{Unsupervised Learning}
 Machine learning without known target values or rewards granted by the environment is generally defined as unsupervised learning. The learner tries to recognize patterns and statistical regularities that stand out from the amorphous noise. During training, the learner machine intensifies specific connection weights so that the results for the clustering of central, representative datasets match up \cite{Patterson1997}. Popular fields of use are automated clustering of data points or compressing data to achieve dimensional reduction.
 \section{Deep Reinforcement Learning}
@@ -117,7 +116,7 @@ In Deep Reinforcement Learning, the Agent is represented by a neural network, wh
 The decision is made on the basis of the current state and past experiences. Based on the taken action, the environment occasionally provides the agent with a reward. The amount of reward determines the quality of the taken action with regards to solving the given problem.
 The objective of an AI agent is to maximize the accumulated reward over time, by learning to take the right actions in any given circumstances.
 However, the reward is mostly delayed, thus not instantaneous. This makes time play a fundamental role in reinforcement learning and the decision process it revolves around.
-This decision process can be modeled as a Markov Decision Process, Laying the cornerstone for modern reinforcement learning algorithms which are described in the following sections.
+This decision process can be modeled as a Markov Decision Process, laying the cornerstone for modern reinforcement learning algorithms which are described in the following sections.
 \subsection{Markov Decision Process}
 A Markov Decision Process (MDP) is a discrete time stochastic control process. MDP is the state of the art approach to model the complex environment of an AI agent. An MDP is defined by the tuple ${\{S, A, P, R, \gamma\}}$. A and S are finite sets of actions and states. P is a state transition probability matrix. R is the reward expected by the agent. In the following the MDP will be build up step by step. \newline
 Every problem that the agent is supposed to solve can be considered as a sequence of states (a state may be for example a chess board configuration). While taking actions, the agent moves from one state to another. In a Markov Process, the current state depends only on the previous state. This is also called the Markov Property (\ref{eq:markov_prop}).
@@ -355,7 +354,7 @@ To build structures or units for combat, you need two resources: minerals and ve
 In competitive setups, one starts with eight mineral fields and two vespin geysers. As the game progresses, however, one should mine and expand more mineral and vespin gas storage sites to build more and better units and buildings. This expansion has to be considered as well as warfare with the enemy party.
 The key to victory is often having the more powerful units at the right place and at the right time in order to beat the opponent's forces.
 However, units cannot be built arbitrarily, as most units have a certain building as a prerequisite. The right tactics and the strategic use of these units form the framework for a successful battle. For example, some units can only attack air or ground units. Some units can camouflage themselves and can only be detected with detector units. In addition, each unit type has a number of attributes that make it particularly effective or vulnerable in certain scenarios. Thus, a perfect army composition is essential, taking into account the constellation of your opponent. There are countless possibilities for combinations and successful tactics, whereby the terrain can also be included. For example, units with an elevated position have a visual advantage.
-While the main objective of the game is to beat the opponent, they player must also carry out and manage a number of sub-tasks, such as gathering resources or building structures. Games can last anywhere form a few minutes to one hour to complete, meaning actions taken early in the game might first pay-off in the long run. Finally, the map or the games state is only partially observed, meaning agents must use a combination of memory and planing to succeed.
+While the main objective of the game is to beat the opponent, the player must also carry out and manage a number of sub-tasks, such as gathering resources or building structures. Games can last anywhere from a few minutes to one hour to complete, meaning actions taken early in the game might first pay-off in the long run. Finally, the map or the games state is only partially observed, meaning agents must use a combination of memory and planning to succeed.
 StarCraft II updates the simulation 22.4 times per second. The game is mostly deterministic, but it does have some randomness mainly for cosmetic reasons, like weapon speed (fire rate) and update order. This randomness, however, can be negated by the use of a random seed \cite{DBLP:journals/corr/abs-1708-04782}.
 The next section describes, how we used StarCraft II and a set of tools to implement different reinforcement learning algorithms.
 \section{Implementation}
