@@ -1,0 +1,31 @@
+{
+  "adam_epsilon": 0.00015,
+  "buffer_size": 2000000,
+  "gamma": 0.99,
+  "learning_starts": 50000,
+  "lr": 0.001,
+  "min_iter_time_s": 30,
+  "model": {
+    "custom_model": "my_model",
+    "custom_options": {},
+    "custom_preprocessor": null,
+    "fcnet_hiddens": [
+      256,
+      256,
+      256,
+      256
+    ]
+  },
+  "n_step": 3,
+  "noisy": false,
+  "num_gpus": 1,
+  "num_workers": 4,
+  "optimizer_class": "AsyncReplayOptimizer",
+  "per_worker_exploration": true,
+  "sample_batch_size": 20,
+  "schedule_max_timesteps": 100000,
+  "target_network_update_freq": 500000,
+  "timesteps_per_iteration": 25000,
+  "train_batch_size": 512,
+  "worker_side_prioritization": true
+}
