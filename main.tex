@@ -438,7 +438,7 @@ For the distributed prioritized experience replay, commonly referred to as Ape-X
 We can describe the Ape-X architecture as follows; multiple actors, each with its own instance of the environment,
 generate experience, add it to a shared experience replay memory, and compute initial priorities for the data.
 The (single) learner samples from this memory and updates the network and the priorities of the experience in
-the memory. The actors’ networks are periodically updated with the latest network parameters from the learner. Figure \ref{fig:apexnutshell} depicts the architecture.
+the memory. The actors’ networks are periodically updated with the latest network parameters from the learner. Figure \ref{fig:apexnutshell} depicts the architecture. As you can see, all actor agents share one common replay memory, as opposed to the Double-DQN, where each actor writes experiences to it's own replay memory.
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{Figures/apexnutshell.png}
@@ -563,16 +563,17 @@ However, before producing a marine, the player has to meet certain prerequisites
 \begin{figure}
     \minipage{0.32\textwidth}
     \includegraphics[width=\linewidth]{Figures/depot.png}
-    \caption{Supply Depot}\label{fig:depot}
+    \caption*{Supply Depot}\label{fig:depot}
     \endminipage\hfill
     \minipage{0.30\textwidth}
     \includegraphics[width=\linewidth]{Figures/barracks.png}
-    \caption{Barracks}\label{fig:barracks}
+    \caption*{Barracks}\label{fig:barracks}
     \endminipage\hfill
     \minipage{0.26\textwidth}
     \includegraphics[width=\linewidth]{Figures/marine.png}
-    \caption{Marine}\label{fig:marine}
+    \caption*{Marine}\label{fig:marine}
     \endminipage
+    \caption{Dependency chain}
 \end{figure}
 So the agent has to recognize the dependency chain of Marine, Barracks and Supply Depot, see figures \ref{fig:depot} to \ref{fig:marine}. In past experiments with reinforcement learning agents, it was difficult to recognize this complex relationship. Most known algorithms were not able to successfully learn Montezuma's revenge from the Atari 2060 collection, see \cite{DBLP:journals/corr/abs-1805-11592}. What distinguishes Montezuma's Revenge from other Atari games is its relatively sparse rewards. The agent only receives rewards after completing a specific series of actions of extended periods of time. DeepMind reveals in their online blog, that their initial investigations showed that their agents performed well on the mini-games offered by the SC2LE \cite{DeepMindBlog2017}.
 A similar challenge is proposed by our simplified StarCraft II scenario, which leads to the findings from the experiments we made.
