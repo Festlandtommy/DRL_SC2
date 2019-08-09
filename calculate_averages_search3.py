@@ -13,26 +13,28 @@ import matplotlib.pyplot as plt
 
 
 results = [
-    {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-05-21_15-58-15y3c2e2bh/progress.csv',
-        'label': {'search1': 'train batch size = 512'}},
-    {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-07-31_16-11-44z3n33690/progress.csv',
-        'label': {'search1': 'train batch size = 512'}},
-    {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-08-01_16-47-48hlvuitmy/progress.csv',
-        'label': {'search1': 'train batch size = 512', 'search2': 'gamma = 0.99'}},
-    {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-08-02_13-19-05cb7o5wz_/progress.csv',
-        'label': {'search1': 'train batch size = 512', 'search2': 'gamma = 0.99'}},
+    # {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-05-21_15-58-15y3c2e2bh/progress.csv',
+    #     'label': {'search1': 'train batch size = 512'}},  # meh
+    # {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-07-31_16-11-44z3n33690/progress.csv',
+    #  'label': {'search1': 'train batch size = 512'}},  # meh
+    # # {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-08-01_16-47-48hlvuitmy/progress.csv',
+    # #  'label': {'search1': 'train batch size = 512', 'search2': 'gamma = 0.99'}},
+    # {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-08-02_13-19-05cb7o5wz_/progress.csv',
+    #  'label': {'search1': 'train batch size = 512', 'search2': 'gamma = 0.99'}},  # meh
     {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-08-04_15-49-52dcnale6t/progress.csv',
-        'label': {'search1': 'train batch size = 512'}},  # 107 highscore
-    {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-08-06_10-21-27bczu_jt1/progress.csv',
-        'label': {'search1': 'train batch size = 512'}},
-    {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-07-31_11-25-26z1180k8p/progress.csv',
-        'label': {'search1': 'train batch size = 512'}},  # 105
-    {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-07-30_08-05-00a1zxu0ne/progress.csv',
-        'label': {'search1': 'train batch size = 512'}},
-    {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-07-29_18-37-33103_te2p/progress.csv',
-        'label': {'search1': 'train batch size = 512'}},  # 100+
-    {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-07-29_18-12-51l8nyjfep/progress.csv',
-        'label': {'search1': 'train batch size = 512'}},
+     'label': {'search1': 'train batch size = 512'}},  # 107 highscore
+    # # {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-08-06_10-21-27bczu_jt1/progress.csv',
+    # #  'label': {'search1': 'train batch size = 512'}},
+    # {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-07-31_11-25-26z1180k8p/progress.csv',
+    #  'label': {'search1': 'train batch size = 512'}},  # 105
+    # # {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-07-30_08-05-00a1zxu0ne/progress.csv',
+    # #  'label': {'search1': 'train batch size = 512'}},
+    # {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-07-29_18-37-33103_te2p/progress.csv',
+    #  'label': {'search1': 'train batch size = 512'}},  # 100+
+    # {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-07-29_18-12-51l8nyjfep/progress.csv',
+    #  'label': {'search1': 'train batch size = 512'}}, # shit
+    # {'file': '/Users/tas/LaTex/Forschungsarbeit/Experiment/ray_results/APEX_srv_2019-08-07_10-53-007cfrv3mp/progress.csv',
+    #  'label': {'search1': 'train batch size = 512'}}
 ]
 
 
@@ -109,8 +111,8 @@ for result in results:
         df_sampled = df_sampled.set_index("S")
 
         # add plot for each dataframe
-        plt.plot(df_sampled.index.values/60/60,
-                 df_sampled['mean'+str(i)], label='__nolegend__')
+        # plt.plot(df_sampled.index.values/60/60,
+        #          df_sampled['mean'+str(i)], label='__nolegend__')
         # concat the new timeSeries with the others
         df_all_data = pd.concat(
             [df_all_data, df_sampled], axis=1, sort=True, join='outer')
@@ -124,10 +126,11 @@ df_all_data['mean'] = df_all_data.mean(
 
 # add the mean to the plot! Afterwards df_all_data will be deleted and replaced by new data!
 plt.plot(df_all_data.index.values/60/60,
-         df_all_data['mean'], label='Ape-X mean')
+         df_all_data['mean'], label='Ape-X mean best')
 print(df_all_data)
 
-# Now modify Matplotlib for a consistens scaling and view
+# Now modify Matplotlib for
+#  a consistens scaling and view
 x1, x2, y1, y2 = plt.axis()
 plt.axis((x1, 4, 0, 180))
 x1, x2 = plt.xlim()
