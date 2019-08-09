@@ -46,7 +46,7 @@ These technology rely heavily on human input to label the data in order for the 
 The ability to learn abstract concepts however, differs strongly from the sheer memorizing of certain values in a pixels greyscale brightness.
 This ability to learn is arguably one of, or even the most crucial aspect of human intelligence. And this is where reinforcement learning comes into play.
 In this field of artificial intelligence, we attempt to guide an agent by supervisory signals in the form of rewards and penalties to learn an optimal behavior.
-In the recent past a lot of milestones for reinforcement learning have been reached. The researchers at DeepMind as-well as @TODO
+In the recent past a lot of milestones for reinforcement learning have been reached. The researchers at DeepMind as-well as openAI
 This work is motivated by the leaping steps the technology has made.
 We adjusted the scope of the problem to a something we thought to be reasonable when considering the time and resources available for this research project. 
 This project contributes to to deep reinforcement learning research by assessing hyper-parameters and models to state-of-the-art algorithms.
@@ -56,10 +56,10 @@ Following up with an overview on the internal functionality of artificial neuron
 In order to store large amounts of information, such as memories of events, artificial neural networks can be used. Their structure and functions are modeled on those of biological neural networks, however greatly simplified.
 Artificial neural network can be regarded an equivalent model to the Turing machine, regarding computability.
 \subsection{The Biological Paradigm}
-The mammal brain combined with the nervous system and it's capabilities in information processing serve as an archetype for today's artificial neural networks\cite{Rojas1996}
+The mammal brain combined with the nervous system and it's capabilities in information processing serve as an archetype for today's artificial neural networks\cite{Rojas1996}.
 The fundamental components of such biological systems are neurons, complex and very small cells, which react to electrochemical signals.
 The human nervous system, for example, consists of up to $10^{12}$ interconnected neurons.
-Although, there are different types of neurons they share some basic characteristics. As shown in \ref{fig:neuron_schemantic} a neuron consists of a cell body with the nucleus, dendrites to receive stimuli of other cells and an axon ending with synapses used to pass on an electrical signal \cite{Patterson1997}.
+Although, there are different types of neurons they share some basic characteristics. As shown in figure \ref{fig:neuron_schemantic}, a neuron consists of a cell body with the nucleus, dendrites to receive stimuli of other cells and an axon ending with synapses used to pass on an electrical signal \cite{Patterson1997}.
 \begin{figure}
     \centering
     \includegraphics[width=0.5\linewidth]{Figures/Neuron_schemantic_depiction.png}
@@ -103,8 +103,8 @@ Machine learning without known target values or rewards granted by the environme
 Machine learning as a field of science has been around for decades now. It is part of the overall field of artificial intelligence and enables systems to recognize patterns and regularities on the basis of datasets.
 One could say knowledge is derived from experiences. So in Reinforcement Learning, like a human, the AI agent learns from the consequences of its actions, rather than being explicitly taught. This feedback loop is what reinforcement learning is about.
 And it is on the rise. Most outstanding achievements in deep learning were made due to deep reinforcement learning. DeepMind's AI agents teach themselves how to walk, run and overcome obstacles.
-Google's Alpha Go has beaten the world's best human player in the board game Go, Google's Alpha Star is reaching high levels of play in the
-video game StarCraft II, the game which will be used for experiments in this project as well.
+Google's {\it Alpha Go} has beaten the world's best human player in the board game Go, Google's {\it Alpha Star} is reaching high levels of play in the
+video game StarCraft II, the game which will be used as a testbed for experiments in this project as well.
 \newline
 \begin{figure}
     \centering
@@ -116,7 +116,7 @@ In Deep Reinforcement Learning, the Agent is represented by a neural network, wh
 The decision is made on the basis of the current state and past experiences. Based on the taken action, the environment occasionally provides the agent with a reward. The amount of reward determines the quality of the taken action with regards to solving the given problem.
 The objective of an AI agent is to maximize the accumulated reward over time, by learning to take the right actions in any given circumstances.
 However, the reward is mostly delayed, thus not instantaneous. This makes time play a fundamental role in reinforcement learning and the decision process it revolves around.
-This decision process can be modeled as a Markov Decision Process, laying the cornerstone for modern reinforcement learning algorithms which are described in the following sections.
+This decision process can be modeled as a {\it Markov Decision Process}, laying the cornerstone for modern reinforcement learning algorithms which are described in the following sections.
 \subsection{Markov Decision Process}
 A Markov Decision Process (MDP) is a discrete time stochastic control process. MDP is the state of the art approach to model the complex environment of an AI agent. An MDP is defined by the tuple ${\{S, A, P, R, \gamma\}}$. A and S are finite sets of actions and states. P is a state transition probability matrix. R is the reward expected by the agent. In the following the MDP will be build up step by step. \newline
 Every problem that the agent is supposed to solve can be considered as a sequence of states (a state may be for example a chess board configuration). While taking actions, the agent moves from one state to another. In a Markov Process, the current state depends only on the previous state. This is also called the Markov Property (\ref{eq:markov_prop}).
@@ -206,7 +206,7 @@ Q-learning is an off-policy TD control algorithm that seeks to find the best act
 \end{equation}
 It is considered off-policy because the q-learning function learns from actions that are outside the current policy, like taking random actions. More specifically, q-learning seeks to learn a policy that maximizes the total reward. It is making use of a model-free prediction and control methods.
 
-In this case, the learned action-value function, Q, directly approximates q, the optimal
+In this case, the learned action-value Q, directly approximates q, the optimal
 action-value function, independent of the policy being followed. The Q-value resembles the discounted value of a state-action pair. This dramatically
 simplifies the analysis of the algorithm and enabled early convergence proofs. The policy however
 still affects control because it determines which state-action pairs are visited and updated.
@@ -304,8 +304,8 @@ The procedure for the Double Q-Learning algorithm can be described as follows:
     \EndWhile
     \end{algorithmic}
 \end{algorithm}
-\newpage
 In their empirical results, see \cite{VanHasselt2015}, van Hasselt et al. describe that the Double DQN improves over DQN both in terms of value accuracy and in terms of policy quality. They state that, in their tests the Double DQN produces more accurate value estimates and also better polices, by successfully reducing standard DQN's overestimations.
+\newpage
 \subsection{Distributed Prioritized Experience Replay}
 Online reinforcement learning agents using simple algorithms, like the standard q-learning, are prone to miss potentially important experiences. This is because they incrementally update their policy or value function parameters while they observe a stream of experience. Although they actually observe the experience, due to immediate discarding the possibly rare experience is forgotten quite rapidly.
 {\it Experience replay}, see \cite{Lin2014}, successfully addresses this issue by storing experience in a replay memory. With the help of this memory, we can update the parameters also based on rarely occurring experiences by using them more than once. The DQN implements this technique to stabilize the training of a deep neural network. By using a large sliding window replay memory this results in effectively processing each experience tuple eight times, see \cite{Schaul2016} and section \ref{sec:q-learning}.
@@ -346,8 +346,10 @@ where $p_i > 0$ is the priority of the experience $i$ in memory. The exponent $\
     \end{algorithmic}
 \end{algorithm}
 
-\section{StarCraft II}\label{sec:SC2}
-The testbed game used for this research project is Blizzard Entertainment's StarCraft II, released worldwide in July 2010 for Microsoft Windows and Mac OS X. StarCraft II is a science fiction real-time strategy video game and the sequel to the 1998 video game StarCraft. Since 2017, StarCraft II is free-to-play. The game is played professionally throughout the world. Just like its predecessor StarCraft: Brood War, the highest level of play is centered in South Korea. During its early years, it was considered the largest esport in the world.
+\section{Implementation}\label{sec:implementation}
+Applied reinforcement learning can require the use of multiple complex systems to cope with the needs of of training, simulation, and serving steps. In this section the software systems used in this work will be covered. Starting with the testbed game and the framework used for serving the training process.
+\subsection{StarCraft II}\label{sec:SC2}
+The testbed game used for this research project is Blizzard Entertainment's StarCraft II, released worldwide in July 2010 for Microsoft Windows and Mac OS X. StarCraft II is a science fiction real-time strategy video game and the sequel to the 1998 video game StarCraft. Since 2017 StarCraft II is free-to-play. The game is played professionally throughout the world. Just like its predecessor StarCraft: Brood War, the highest level of play is centered in South Korea. During its early years, it was considered the largest esport in the world.
 When choosing a game to use as an environment and testbed to train reinforcement agents in, StarCraft II is especially suited for this purpose, as Blizzard Entertainment provides a communication interface and protocol for interacting with the game client (see section \ref{sec:SC2API}).
 The game focuses on three different races: Terran, Zerg, and Protoss. Each race has different units and tactics. The strengths and weaknesses of the races allow many different strategies.
 To build structures or units for combat, you need two resources: minerals and vespin gas, where minerals are always needed, vespin gas only for more advanced buildings and troops. Minerals can be mined from mineral fields, while vespin gas can be extracted from vespin geysers, for which special buildings must be placed on the geysers. The number of mineral fields and vespin geysers varies per map, so there are more mineral fields and vespin geysers on a 4v4 map than on a 1v1 map.
@@ -357,8 +359,6 @@ However, units cannot be built arbitrarily, as most units have a certain buildin
 While the main objective of the game is to beat the opponent, the player must also carry out and manage a number of sub-tasks, such as gathering resources or building structures. Games can last anywhere from a few minutes to one hour to complete, meaning actions taken early in the game might first pay-off in the long run. Finally, the map or the games state is only partially observed, meaning agents must use a combination of memory and planning to succeed.
 StarCraft II updates the simulation 22.4 times per second. The game is mostly deterministic, but it does have some randomness mainly for cosmetic reasons, like weapon speed (fire rate) and update order. This randomness, however, can be negated by the use of a random seed \cite{DBLP:journals/corr/abs-1708-04782}.
 The next section describes, how we used StarCraft II and a set of tools to implement different reinforcement learning algorithms.
-\section{Implementation}
-Applied reinforcement learning can require the use of multiple complex systems to cope with the needs of of training, simulation, and serving steps. In this section the software systems used in this work will be covered. Starting with the framework for serving the training process.
 \subsection{Ray Framework}
 Ray is a framework for building and running distributed applications, developed at the Berkeley University of California especially for AI applications. As agents of modern reinforcement learning systems will have to continuously interact with the environment and learn from these interactions, they impose demanding system requirements, see \cite{Moritz2017}. Ray implements a unified interface that can ship both task-parallel and actor-based computations in a single execution engine.
 It features a distributed scheduler and a distributed and fault-tolerant store to manage the system's control state.
@@ -392,40 +392,40 @@ Using RLlib, we can separate the implementation of algorithms, which are defined
 As a first implementation of a reinforcement learning algorithm we used the architecture presented by Minh et al. in 2015 \cite{Mnih2016}, known as DQN, see also section \ref{sec:q-learning}. The DQN architecture may have been outperformed by the more recent algorithms, however, it can still act as a baseline experiment for our optimization scenario. RLlib DQN is implemented using the {\it SyncReplayOptimizer}, a policy optimizer provided by Ray. The algorithm can optionally be scaled effectively by increasing the number of workers collecting samples in parallel, however, by default this is set to one worker. See table \ref{tab:dqn_params} for the set of parameters used in the DQN implementation. Parameter numbers one to three affect the model, four to nine the optimization and ten to 14 the exploration behavior. We use an $\epsilon greedy$ policy with exploration annealing from $\epsilon_{start} = 1.0$ to $\epsilon_{final} = 0.02$ by the scaling fraction $0.1$. This means the final value of random action probability equals $0.02$. 
 \begin{table}
     \begin{center}
-        \begin{tabular}{| c | c | c |}
+        \begin{tabular}{| c | c | c |c |}
             \hline
-            Nr. & {\bf Parameter} & {\bf Value} \\
-            \hline
-            \hline
-            1 & N-step Q learning & 1 \\
-            \hline
-            2 & Hidden layers & [256,256,256,256] \\
-            \hline
-            3 & Number of parallel workers & 1 \\
+            Nr. & {\bf Parameter} & {\bf Symbol} & {\bf Value} \\
             \hline
             \hline
-            4 & Learning rate & 5e-4 \\
+            1 & N-step Q learning & & 1 \\
             \hline
-            5 &Adam $\epsilon$ & 1e-8 \\
+            2 & Hidden layers & & [256,256,256,256] \\
             \hline
-            6 & Gradient clipping at & 40 \\
-            \hline
-            7 & Sample batch size & 4 \\
-            \hline
-            8 & Train batch size & 32 \\
-            \hline
-            9 & Noisy network & false \\
+            3 & Number of parallel workers & & 1 \\
             \hline
             \hline
-            10 & Exploration $\epsilon_{start}$ & 1.0 \\
+            4 & Learning rate & & 5e-4 \\
             \hline
-            11 & Exploration $\epsilon$ fraction & 0.1 \\
+            5 &Adam $\epsilon$ & & 1e-8 \\
             \hline
-            12 & Exploration $\epsilon$ num time-steps & 100000 \\
+            6 & Gradient clipping at & & 40 \\
             \hline
-            13 & Exploration $\epsilon_{final}$ & 0.02 \\
+            7 & Sample batch size & & 4 \\
             \hline
-            14 & Target network update frequency $\tau$ & 500 \\
+            8 & Train batch size & & 32 \\
+            \hline
+            9 & Noisy network & & false \\
+            \hline
+            \hline
+            10 & Exploration  & $\epsilon_{start}$ & 1.0 \\
+            \hline
+            11 & Exploration  fraction & $\epsilon$ & 0.1 \\
+            \hline
+            12 & Exploration  num time-steps & $\epsilon$ & 100000 \\
+            \hline
+            13 & Exploration  & $\epsilon_{final}$ & 0.02 \\
+            \hline
+            14 & Target network update frequency & $\tau$ & 500 \\
             \hline
         \end{tabular}
         \caption{Parameter set used for DQN in RLlib}
@@ -490,7 +490,7 @@ For the set of parameters used for Ape-X, please refer to table \ref{tab:apex_pa
     \end{center}
 \end{table} 
 \subsection{StarCraft II Learning Environment}
-One of the main reasons for choosing StarCraft II, see section \ref{sec:SC2}, as our testbed game is the release of the StarCraft II Learning Environment (SC2LE). It is a set of tools that is aimed towards the needs of researchers of AI in real-time strategy games. It includes the StarCraft II Machine Learning API developed by Blizzard Entertainment, providing developers and researchers hooks into the game, making the observation of the game state much easier and convenient. Along with that an open-source version of DeepMind's toolset, PySC2 and a dataset of anonymized game replays. The following section describes how we used SC2LE API and the PySC2 toolset to create a feature vector for our agent.
+One of the main reasons for choosing StarCraft II as our testbed game is the release of the StarCraft II Learning Environment (SC2LE). It is a set of tools that is aimed towards the needs of researchers of AI in real-time strategy games. It includes the StarCraft II Machine Learning API developed by Blizzard Entertainment, providing developers and researchers hooks into the game, making the observation of the game state much easier and convenient. Along with that an open-source version of DeepMind's toolset, {\it PySC2} and a dataset of anonymized game replays. The following section describes how we used SC2LE API and the PySC2 toolset to create a feature vector for our agent.
 \label{sec:SC2API}
 \subsubsection{StarCraft II Machine Learning API}
 When we want to have our agents interact with StarCraft, we must implement some sort of interface for the online policy network to receive the game's state and deliver picked agents to the StarCraft client. In this case we used the SC2LE API and the wrapper libraries PySC2 and PythonSC2 to extract a set of picked values to supply our agent with information we decided to be useful for our defined optimization scenario, see section \ref{sec:scenario}. For an overview of these picked values see the following section. In section \ref{sec:action} is described, what discrete actions we prepared for the learning agents, using the PythonSC2 library.
@@ -545,16 +545,19 @@ In an effort to reduce problem complexity and provide the algorithms with discre
 \end{table}
 
 \section{Experiment}
-In this chapter the experiments made in context of this project will be presented. Experiments have been carried out throughout, while making changes to the underlying implementation. This means not all results are directly comparable. Therefore, the most useful results will be evaluated and their possible shortcomings will be discussed.
+In this chapter the experiments made in context of this project will be presented. Experiments have been carried out throughout, while making changes to the underlying implementation. This means not all results are directly comparable. Therefore, the most useful results will be evaluated.
+The agents were trained for four hours on average with 4 worker threads each playing 10 games simultaneously.
+We quickly noticed the distributed prioritized replay implementation Ape-X showed the best results. Unfortunately we were not able to draw a comparison to agents of a different reinforcement learning approach, namely the A3C implementation, because their training processes has not been stable for us in our experiments. You can find the results of Ape-X in section \ref{sec:results}, in the following section we introduced the optimization scenario we used to benchmark our agents in.
+
 \subsection{Optimization Scenario}\label{sec:scenario}
 Since StarCraft II's standard game features a very complex and very demanding environment for our reinforcement learning agents we had to reduce the problem complexity.
 A game of StarCraft II is mostly about having more strike force at the right time and the right place than the opponent.
 So one of the most important tasks when learning the game is the ability to produce as many armed forces as fast as possible. Following that idea, we picked an optimization scenario that reflects that problem in the simplest way provided by the game.
-In the scope of this work, we focus on the Terran race, so the most straight forward approach is to produce marines from the barracks building.
-Therefore, as a first experiment for the reinforcement learning agent, a scenario is used, where it's the goal is solely to train marines.
-The agent receives a reward for every marine trained in a game of six minutes of game time. The time limit is picked on purpose because in a real match this would be the point where a mass of marines would be the most useful.
+In the scope of this work, we focus on the {\it Terran} race, so the most straight forward approach is to produce marines from the barracks building.
+Therefore, as a first experiment for the reinforcement learning agent, a scenario is used, where the goal is solely to train marines. SC2LE features such a scenario called {\it BuildMarines}.
+The agent receives a reward for every marine trained in a game of 15 minutes of game time. The time limit is picked on purpose because in a real match this would be the point where a mass of marines would be the most useful.
 In order to reach the optimal amount of marines in the given time frame, the agent must optimize its use of resources.
-As a benchmark, we @TODO(check the available minerals) reached 150 marines in 15 minutes when playing ourselves. We used 20 workers and six barracks to reach this many marines.
+As a benchmark, in our best run-trough we reached a score of 146 marines in 15 minutes when playing ourselves. We used 20 workers and six barracks to reach this many marines. This score was set as a human reference benchmark in the result plots to be seen in the results section. This can be considered as a fairly high benchmark, as Vinyals et al. state 142 as their best effort and a professional StarCraft II player's score as 133 \cite{DBLP:journals/corr/abs-1708-04782}.
 The agent has to optimize the amount of produced workers and the number of barracks as-well.
 However, before producing a marine, the player has to meet certain prerequisites. These include: having at least 50 minerals, having at least one available supply and having previously built the barracks building. The barracks building itself has the prerequisite of having a supply depot built.
 
@@ -562,33 +565,68 @@ However, before producing a marine, the player has to meet certain prerequisites
 \begin{figure}
     \minipage{0.32\textwidth}
     \includegraphics[width=\linewidth]{Figures/depot.png}
-    \caption*{Supply Depot}\label{fig:depot}
+    % \caption{Supply Depot}\label{fig:depot}
     \endminipage\hfill
     \minipage{0.30\textwidth}
     \includegraphics[width=\linewidth]{Figures/barracks.png}
-    \caption*{Barracks}\label{fig:barracks}
+    % \caption{Barracks}\label{fig:barracks}
     \endminipage\hfill
     \minipage{0.26\textwidth}
     \includegraphics[width=\linewidth]{Figures/marine.png}
-    \caption*{Marine}\label{fig:marine}
+    % \caption{Marine}\label{fig:marine}
     \endminipage
-    \caption{Dependency chain}
+    \caption{Dependency chain, with from left to right, Supply Depot, Barracks, Marine. Pictures taken in StarCraft II.}
+    \label{fig:dependency_chain}
 \end{figure}
-So the agent has to recognize the dependency chain of Marine, Barracks and Supply Depot, see figures \ref{fig:depot} to \ref{fig:marine}. In past experiments with reinforcement learning agents, it was difficult to recognize this complex relationship. Most known algorithms were not able to successfully learn Montezuma's revenge from the Atari 2060 collection, see \cite{DBLP:journals/corr/abs-1805-11592}. What distinguishes Montezuma's Revenge from other Atari games is its relatively sparse rewards. The agent only receives rewards after completing a specific series of actions of extended periods of time. DeepMind reveals in their online blog, that their initial investigations showed that their agents performed well on the mini-games offered by the SC2LE \cite{DeepMindBlog2017}.
-A similar challenge is proposed by our simplified StarCraft II scenario, which leads to the findings from the experiments we made.
+So the agent has to recognize the dependency chain of Marine, Barracks and Supply Depot, see pictures in figure \ref{fig:dependency_chain} from left to right. In past experiments with reinforcement learning agents, it was difficult to recognize this complex relationship. Most known algorithms were not able to successfully learn Montezuma's revenge from the Atari 2060 collection, see \cite{DBLP:journals/corr/abs-1805-11592}. What distinguishes Montezuma's Revenge from other Atari games is its relatively sparse rewards. The agent only receives rewards after completing a specific series of actions of extended periods of time. DeepMind reveals in their online blog, that their initial investigations showed that their agents performed well on the mini-games offered by the SC2LE \cite{DeepMindBlog2017}. The BuildMarines scenario seems to be tough to beat, as their best agent managed to achieve 14 marines tops as best mean. However, it has to be stated that as opposed to the agent we present here, their agents use the raw game API without pre-scripted actions.
+Still, a similar challenge is proposed by our simplified StarCraft II scenario, which leads to the findings from the experiments we made in section \ref{sec:results}.
 
 \subsection{Performance - hactar}
 The experimental reinforcement learning tasks have been held on the {\it hactar} scientific calculus system provided by the Technical University of Cologne. It features a Intel(R) Xeon(R) CPU E5-2680 v4 clocked at 2.40GHz with 56 logical cores and 256 GB Random Access Memory (RAM). Ubuntu Linux 16.04.6 LTS is used as operating system. Hactar also contains two high performance Graphics Processing Units (GPU) to further accelerate some calculations. By using the hactar system we can run the environment faster than real time. Observations are rendered at a speed that depends on several factors. For our simple optimization scenario the world simulation is very fast, so rendering the observation is the most critical part. This usually means the Python interpreter becomes the bottleneck. Possible gains by running over 4 parallel threads with a single interpreter are negated by that bottleneck, see \cite{DBLP:journals/corr/abs-1708-04782}.
 \subsection{Training and Stability}
 When using supervised learning, we can easily track the performance of a model during training by using the training and validation datasets for evaluation. In reinforcement learning accurately evaluating the progress of an agent during training can be challenging. The evaluation metric we use is the total reward accumulated by our test agents over the course of an episode or game averaged over a number of games. This mean reward is calculated periodically while training. Training stability has been very good for both DQN and ApeX, however, we had to skip the A3C for this project due to exploding gradients during training.
 \subsection{Results}\label{sec:results}
-Looking at the course of the average reward the agents managed to receive 
-\subsection{Learnings}
+\begin{figure}
+    \centering
+    \begin{minipage}{.5\textwidth}
+      \centering
+      \includegraphics[width=1\linewidth]{Figures/results_mean.png}
+      \caption{Average mean reward}
+      \label{fig:results_mean}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+      \centering
+      \includegraphics[width=1\linewidth]{Figures/results_max.png}
+      \caption{Average maximum reward}
+      \label{fig:results_max}
+    \end{minipage}
+\end{figure}
+Looking at the course of the average reward as depicted in figure \ref{fig:results_mean} the Ape-X agents managed to receive mean rewards well above 80. Although some reached this performance only after hours of training, others were able to build more than 50 marines after just 30 minutes of training time on the hactar system. There seems to be a cap at around 100 marines as the mean reward does not increase further even with way longer training times. The color highlighted in the legend shows the average over all depicted curves. The maximum number of marines achieved is shown in figure \ref{fig:results_max}, again with the average highlighted in the legend. It has been shown, that the agents, at their maximum reward results, are close to the human reference. If we recall the benchmarks' level according to the statements in \cite{DBLP:journals/corr/abs-1708-04782}, this can be considered as a good result. In figure \ref{fig:results_mean_best} and figure \ref{fig:results_max_best} you can see the best results for mean and maximum reward respectively.
+
+\begin{figure}
+    \centering
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{Figures/results_mean_best.png}
+        \caption{Best mean reward}
+        \label{fig:results_mean_best}
+    \end{minipage}%
+    \begin{minipage}{.5\textwidth}
+        \centering
+        \includegraphics[width=1\linewidth]{Figures/results_max_best.png}
+        \caption{Best maximum reward}
+        \label{fig:results_max_best}
+    \end{minipage}
+\end{figure}
+If we look into the replay files generated during training, we can see the reason for the algorithms converging at around 90 points of mean reward. @TODO
+\subsection{Learnings and Outlook}
+This section covers a more personal view on the project and the obstacles that had to be overcome as well as what we learned to be useful during the time. First of all, although the SC2LE might be a great testbed for advanced reinforcement learning algorithms, the high complexity it features makes it somewhat unsuitable as a first environment to work with. We had to take multiple steps back when setting up the frame for this experiment project as we noticed the scope of it got way out of hand. Considering the optimization scenario we created using the SC2LE, we could have used a simpler testbed game instead without having to cope with the steep learning curve and necessary scripting work that had to be done beforehand. To effectively train and use modern distributed reinforcement learning algorithms a lot of complex systems have to be brought in line with each other, as described in the previous section \ref{sec:implementation}. 
+
 \subsection{Related Work}
 Initially, this work was part of a postgraduate project trying to enable agents to competitively play StarCraft using reinforcement learning. As of today, the focus of the dissertation has shifted towards the automated hyper-parameter tuning using so-called {\it meta learners}, researched by M.Sc. Jan Bollenbacher.
-Tied closely to this work, fellow student Florian Soulier has studied how changing DQN agents parameter sets influence their performance using a grid search on different settings. In the context of using artificial intelligence with StarCraft fellow student Omar Kemachem studied clustering of StarCraft player strategies by looking at frames of the game replays provided by the SC2LE. 
+Tied closely to this work, fellow student Florian Soulier has studied how changing DQN agents parameter sets influence their performance using a grid search on different settings. In the context of using artificial intelligence with StarCraft fellow student Omar Khemakhem studied clustering and data mining of StarCraft player strategies by looking at frames of the game replays provided by the SC2LE. 
 \section{Conclusion}
-In this project we set up a simple optimization scenario that can be solved by a human player fairly quick. We had different reinforcement learning algorithms trained to the set up environment, coming up with rather poor results. The results indicate that the simpler algorithms are not capable of learning the time delayed dependency chains they face in our scenario. Looking forward, one should focus on the more complex algorithms, considering especially the use of LSTM and transformers to depict these dependency chains.
+In this project we set up a simple optimization scenario that can be solved by a human player fairly quickly. We had different reinforcement learning algorithms trained to the set up environment, coming up with rather poor results. The results indicate that the simpler algorithms are not capable of learning the time delayed dependency chains they face in our scenario. The distributed prioritized replay implementation Ape-X however, performed reasonably well with the parameter settings presented in table \ref{tab:apex_params}. As a next step we could expand the actions space and enlarge the optimization scenario to match a regular StarCraft game more closely. Looking forward, one should focus on the more complex algorithms, considering especially the use of LSTM and transformers to depict these dependency chains.
 \begin{appendix}
     \listoffigures
     \listoftables
